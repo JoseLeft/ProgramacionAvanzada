@@ -11,8 +11,12 @@ class Coche:
 
         # Primer metodo
         def mostrar_info(self):
-            print("Marca: ", self.marca )
+            print("Marca: ", self.marca)
             print("Modelo: ", self.modelo)
             print("Ano: ", self.ano)
+
+            # Calcular edad del coche
+            def calcular_edad_coche(self):
+                print("La edad del coche es: ", 2024-self.ano)
 
 
