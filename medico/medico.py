@@ -1,36 +1,29 @@
 import random
 
-class Paciente:
-    id = 0
-    nombre = ""
-    ano_nacimiento = 0
-    peso = 0
-    estatura = 0
-    direccion = ""
+class Medico:
+    id: int
+    nombre: str
+    ano_nacimiento: int
+    rfc: str
+    direccion: str
 
-    def __init__(self, nombre, ano_nacimiento, peso, estatura, direccion):
-        self.id = random.randint(1, 10001)
+    def __init__(self, nombre: str, ano_nacimiento: int, rfc: str, direccion: str):
+        self.id = random.randint(1, 1000)
         self.nombre = nombre
         self.ano_nacimiento = ano_nacimiento
-        self.peso = peso
-        self.estatura = estatura
+        self.rfc = rfc
         self.direccion = direccion
-
-    def mostrar_informacion(self):
+        
+    def mostrar_informacion_medico(self):
         print(f"\nId: {self.id}")
         print(f"Nombre: {self.nombre}")
         print(f"Año de nacimiento: {self.ano_nacimiento}")
-        print(f"Peso: {self.peso}")
-        print(f"Estatura: {self.estatura}")
+        print(f"RFC: {self.rfc}")
         print(f"Dirección: {self.direccion}")
 
     # @property
     # def id(self):
     #     return self.id
-    
-    # @property
-    # def set_id(self, id):
-    #     self.id = id
     
     # @property
     # def name(self):
@@ -41,12 +34,8 @@ class Paciente:
     #     return self.ano_nacimiento
     
     # @property
-    # def peso(self):
-    #     return self.peso
-    
-    # @property
-    # def estatura(self):
-    #     return self.estatura
+    # def rfc(self):
+    #     return self.rfc
     
     # @property
     # def direccion(self):
