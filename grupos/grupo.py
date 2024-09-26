@@ -7,5 +7,5 @@ class Grupo:
     id: int
     estudiantes: List[Estudiante] = []
     maestros: List[Maestro] = []
-    materias: List[Materia] = []
+    materias: List[Materia] =[]
     tipo: chr
