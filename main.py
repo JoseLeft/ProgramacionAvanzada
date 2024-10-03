@@ -1,64 +1,166 @@
 from escuela.escuela import Escuela
 from estudiantes.estudiante import Estudiante
-from maestros.maestro import Maestro
-from materias.materia import Materia
 from datetime import datetime
+from materias.materia import Materia
+from maestros.maestro import Maestro
+from carrera.carrera import Carrera
+from semestre.semestre import Semestre
+from grupos.grupo import Grupo
 
 escuela = Escuela()
 
 while True:
     print("\n** MINDBOX **")
-    print("1. Registrar estudiante")
-    print("2. Registrar maestro")
-    print("3. Registrar materia")
-    print("4. Registrar grupo")
-    print("5. Registrar horario")
-    print("6. Salir")
-
-    opcion = input("Ingresa una opcion para continuar: ")
-
+    print("1. Registar estudiante")
+    print("2. Registar maestro")
+    print("3. Registar materia")
+    print("4. Registar grupo")
+    print("5. Registar horario")
+    print("6. Mostrar Estudiantes")
+    print("7. Mostrar Maestros") #Tarea
+    print("8. Mostrar Materias") #Tarea
+    print("9. Mostrar Grupos")
+    print("10. Eliminar Estudiante")
+    print("11. Eliminar Maestro")#Tarea
+    print("12. Eliminar Materia")#Tarea
+    print("13. Registrar Carrera")
+    print("14. Registrar Semestre")
+    print("15. Mostrar Carreras")
+    print("16. Mostrar Semestres")
+    print("17. Salir")
+    
+    opcion = input("Ingresa una opción para continuar: ")
 
     if opcion == "1":
-        print("\n******* Registrar estudiante ******")
-        numero_control = escuela.generar_numeroControl_E()
-        print("Numero de control: ",numero_control)
-        nombre = input("Ingresa el nombre del estudiante: ")
-        apellido = input("Ingresa el apellido del estudiante: ")
-        curp = input("Ingresa la CURP del estudiante: ")
-        print("Ingresa su fecha de nacimiento: ")
-        año = int(input("Año: "))
-        mes = int(input("Mes: "))
-        dia = int(input("Dia: "))
+        print("\n Seleccionaste la opcion para registrar un estudiante")
+
+        numero_control = escuela.generar_numero_control()
+        print(numero_control)
+
+
+        nombre = input("ingresa el nombre del estudiante: ")
+        apellido = input("ingresa el apellido del estudiante: ") 
+        curp = input("ingresa la curp del estudiante: ")
+        año = int(input("ingrese el año de nacimiento del estudiante: "))
+        mes = int(input("ingrese el mes de nacimiento del estudiante: "))
+        dia = int(input("ingrese el dia de nacimiento del estudiante: "))
         fecha_nacimiento = datetime(año, mes, dia)
-        escuela.registrar_estudiante(Estudiante)
+
+        estudiante = Estudiante(numero_control=numero_control, nombre=nombre, apellido=apellido, curp=curp, fecha_nacimiento=fecha_nacimiento)
+
+
+        escuela.registrar_estudiante(estudiante)
+        print(f"Estudiante {nombre} {apellido} registrado exitosamente.\n")
 
     if opcion == "2":
-        print("\n***** Registrar maestro *****")
-        nombre = input("Ingresa el nombre del maestro: ")
-        apellido = input("Ingresa el apellido del maestro: ")
-        ano_nacimiento = int(input("Ingresa su año de nacimiento: "))
-        rfc = input("Ingresa el RFC: ")
-        sueldo = float(input("Ingresa el sueldo por hora: "))
-        numero_control = escuela.generar_numeroControl_M(ano_nacimiento, nombre, rfc)
-        print("Numero de control: ",numero_control)
-        escuela.registrar_maestro(Maestro)
+        print("\n Seleccionaste la opcion para registrar un maestro")
+
+        nombre_maestro = input("Ingresa el nombre del maestro: ")
+        apellido = input("Ingresa el apellido del maestro: ") 
+        rfc = input("Ingresa el RFC del maestro: ")
+        sueldo = float(input("Ingresa el sueldo del maestro: "))
+        año = int(input("Ingresa el año de nacimiento del maestro: "))
+        mes = int(input("Ingresa el mes de nacimiento del maestro: "))
+        dia = int(input("Ingresa el día de nacimiento del maestro: "))
+        fecha_nacimiento = datetime(año, mes, dia)
+
+        numero_control_maestro = escuela.generar_numero_control_maestro(nombre_maestro, rfc, año)
+        print(f"Número de control del Maestro: {numero_control_maestro}")
+
+        maestro = Maestro(nombre_maestro=nombre_maestro, apellido=apellido, rfc=rfc, fecha_nacimiento=fecha_nacimiento, numero_control=numero_control_maestro, sueldo=sueldo)
+
+        escuela.registrar_maestro(maestro)
+        print(f"Maestro {nombre_maestro} {apellido} registrado exitosamente.\n")
+
+
 
     if opcion == "3":
-        print("\n***** Registrar materia *****")
-        nombre = input("Ingresa el nombre de la materia: ")
-        descripcion = input("Ingresa la descripcion de la materia: ")
-        creditos = int(input("Ingresa la cantidad de creditos de la materia: "))
+        print("\n Seleccionaste la opcion para registrar una materia")
+
+        nombre_materia = input("Ingresa el nombre de la materia: ")
+        descripcion = input("Ingresa la descripcion de la materia: ") 
         semestre = int(input("Ingresa el semestre de la materia: "))
-        id = escuela.generar_id_materia(nombre, semestre, creditos)
-        print("ID: ",id)
-        escuela.registrar_materia(Materia)
+        creditos = int(input("Ingresa los creditos de la materia: "))
+
+        numero_control_materia = escuela.generar_numero_control_materia(nombre_materia, semestre, creditos)
+        print(f"\nNúmero de control de la materia: {numero_control_materia}")
+
+        materia = Materia(numero_control=numero_control_materia, nombre_materia=nombre_materia, descripcion=descripcion, semestre=semestre, creditos=creditos)
+
+        escuela.registrar_materia(materia)
+        print(f"Materia {nombre_materia} registrada exitosamente.\n")
 
     if opcion == "4":
-        pass
+
+        print("\n Seleccionaste la opcion para registrar un nuevo grupo")
+
+        tipo = input("Ingresa el tipo de grupo (A/B)")
+        id_semestre = input("ingresa el ID del semestre al que pertenece el grupo")
+
+        grupo = Grupo(tipo=tipo, id_semestre=id_semestre)
+
+        escuela.registrar_grupo(grupo=grupo)
 
     if opcion == "5":
         pass
-
     if opcion == "6":
-        print("Adios =)")
+        escuela.listar_estudiantes()
+
+    if opcion == "7":
+        escuela.listar_maestros()
+
+    if opcion == "8":
+        escuela.listar_materias()
+
+    if opcion == "9":
+        escuela.listar_grupos()
+
+    if opcion == "10":
+        print("\nSeleccionaste la opcion para eliminar un estudiante")
+
+        numero_control = input("Ingresa el numero de control del estudiante")
+
+        escuela.eliminar_estudiante(numero_control=numero_control)
+
+    if opcion == "11":
+        print("\nSeleccionaste la opcion para eliminar un maestro")
+
+        numero_control = input("Ingresa el numero de control del maestro")
+
+        escuela.eliminar_maestro(numero_control=numero_control)
+
+    if opcion == "12":
+        print("\nSeleccionaste la opcion para eliminar una materia")
+
+        numero_control = input("Ingresa el numero de control de la materia que quieres eliminar: ")
+
+        escuela.eliminar_materia(numero_control=numero_control)
+
+    if opcion == "13":
+        print("\nSeleccionaste la opcion para Registrar una Carrera")
+
+        nombre = input("Ingresa el nombre de la carrera: ")
+
+        carrera = Carrera(nombre=nombre)
+
+        escuela.registrar_carrera(carrera)
+
+    if opcion == "14":
+        print("\nSeleccionaste la opcion para Registrar un Semestre")
+
+        numero = input("Ingresa el numero del semestre: ")
+        id_carrera = input("Ingresa el ID de la carrera: ")
+
+        semestre = Semestre(numero=numero, id_carrera=id_carrera)
+
+        escuela.registrar_semestre(semestre=semestre)
+
+    if opcion == "15":
+        escuela.listar_carreras()
+    
+    if opcion == "16":
+        escuela.listar_semestres()
+
+    if opcion == "17":
+        print("Hasta Luego")
         break
