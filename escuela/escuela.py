@@ -5,36 +5,116 @@ from maestros.maestro import Maestro
 from materias.materia import Materia
 from datetime import datetime
 from random import randint
-
+from carrera.carrera import Carrera
+from semestres.semestre import Semestre
 
 class Escuela:
     lista_estudiantes: List[Estudiante] = []
-    lista_grupos: List[Grupo] = []
     lista_maestros: List[Maestro] = []
     lista_materias: List[Materia] = []
+    lista_grupos: List[Grupo] = []
+    lista_carreras: List[Carrera] = []
+    lista_semestres: List[Semestre] = []
 
     def registrar_estudiante(self, estudiante: Estudiante):
         self.lista_estudiantes.append(estudiante)
-        print("Estudiante registrado correctamente")
 
     def registrar_maestro(self, maestro: Maestro):
         self.lista_maestros.append(maestro)
-        print("Maestro registrado correctamente")
 
     def registrar_materia(self, materia: Materia):
         self.lista_materias.append(materia)
-        print("Materia registrada correctamente")
 
-    def generar_id_materia(self, nombre, semestre, creditos):
-        id = f"MT{nombre[-2:].upper()}{semestre}{creditos}{randint(1, 1000)}"
-        return id
+    def registrar_carrera(self, carrera:Carrera):
+        self.lista_carreras.append(carrera)
 
-    def generar_numeroControl_E(self):
-        #L-2024-09-longitud lista estudiantes + 1-random
-        numero_control = f"l{datetime.now().year}{datetime.now().month}{len(self.lista_estudiantes)+1}{randint(0, 10000)}"
+    def registrar_semestre(self, semestre:Semestre):
+        matricula_carrera=semestre.matricula_carrera
+        for carrera in self.lista_carreras:
+            if carrera.matricula==matricula_carrera:
+                carrera.registrar_semestre(semestre=semestre)
+                self.lista_semestres.append(semestre)
+                return
+        print("\nNo existe la carrera para registrar el semestre")
+
+    def registrar_grupo(self, grupo:Grupo):
+        id_semestre=grupo.id_semestre
+        for semestre in self.lista_semestres:
+            if id_semestre==semestre.id:
+                semestre.registrar_grupo_en_semestre(grupo=grupo)
+                self.lista_grupos.append(grupo)
+                return
+        print("\nNo existe el semestre para registrar el grupo")
+
+    def listar_estudiantes(self):
+        print("\n---ESTUDIANTES---\n")
+        for estudainte in self.lista_estudiantes:
+            print(estudainte.mostrar_info_estudiante())  
+
+    def listar_maestros(self):
+        print("\n---MAESTROS---\n")
+        for maestro in self.lista_maestros:
+            print(maestro.mostrar_info_maestro())  
+
+    def listar_materias(self):
+        print("\n---MATERIAS---\n")
+        for materia in self.lista_materias:
+            print(materia.mostrar_info_materia())
+
+    def listar_carreras(self):
+        print("\n-----CARRERAS-----\n")
+        for carrera in self.lista_carreras:
+            print(carrera.mostrar_info())
+
+    def listar_semestres(self):
+        print("\n-----SEMESTRES-----\n")
+        for semestre in self.lista_semestres:
+            print(semestre.mostrar_info_semestre())
+
+    def listar_grupos(self):
+        print("\n-----GRUPOS-----")
+        for grupo in self.lista_grupos:
+            print(grupo.mostrar_info_grupos())
+
+    def eliminar_estudiante(self, numero_control: str):
+        for estudiante in self.lista_estudiantes:
+            if numero_control==estudiante.numero_control:
+                self.lista_estudiantes.remove(estudiante)
+                print("\nEstudiante eliminado\n")
+                return
+        print("\nEstudiante no encontrado\n")
+
+    def eliminar_maestro(self, numero_control_maestro):
+        for maestro in self.lista_maestros:
+            if numero_control_maestro==maestro.numero_control:
+                self.lista_maestros.remove(maestro)
+                print("\nMaestro eliminado\n")
+                return
+        print("\nMaestro no encontrado\n")
+
+    def eliminar_materia(self, id_materia):
+        for materia in self.lista_materias:
+            if id_materia==materia.id:
+                self.lista_materias.remove(materia)
+                print("\nMateria eliminada\n")
+                return
+        print("\nMateria no encontrada\n")
+    #listar para maestro y materia, ademas, eliminar para maestro y materia 
+
+    def generar_numero_control(self):
+        mes=datetime.now().month
+        año=datetime.now().year
+        numero_control=f"L{año}{mes}{(len(self.lista_estudiantes)+1)}{randint(1, 10000)}"
         return numero_control
     
-    def generar_numeroControl_M(self, ano_nacimiento, nombre, rfc):
-
-        numero_control = f"M{str(ano_nacimiento[-2:])}{datetime.now().day}{randint(500, 5000)}{nombre[:2].upper()}{rfc[-2:].upper()}{len(self.lista_maestros)+1}"
+    def generar_numero_control_maestro(self, nombre, rfc, año_nacimiento):
+        dia=datetime.now().day
+        digitos_nombre=nombre[0:2].upper()
+        digitos_rfc=rfc[-2:].upper()
+        numero_control=f"M{año_nacimiento}{dia}{randint(500, 5000)}{digitos_nombre}{digitos_rfc}{(len(self.lista_maestros)+1)}"
         return numero_control
+    
+    def generar_id_materia(self, nombre, semestre, creditos):
+        digitos_nombre=nombre[-2:].upper()
+        id=f"MT{digitos_nombre}{semestre}{creditos}{randint(1, 1000)}"
+        return id
